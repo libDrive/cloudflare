@@ -14,7 +14,9 @@ async function handleRequest(request) {
   await drive.init();
   let url = new URL(request.url);
   let path = url.pathname;
-  return drive.down(url.searchParams.get("id"), request.headers.get("Range"), false);
+  if (path.startsWith("/api/v1/download")) {
+    return drive.down(url.searchParams.get("id"), request.headers.get("Range"), false);
+  }
 }
 
 class googleDrive {
