@@ -5,20 +5,16 @@ const config = {
   refresh_token: "",
 };
 
-var drive;
-
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
 
 async function handleRequest(request) {
-  if (drive === undefined) {
-    drive = new googleDrive(config);
-    await drive.init();
-  }
+  const drive = new googleDrive(config);
+  await drive.init();
   let url = new URL(request.url);
   let path = url.pathname;
-  return drive.down(path, request.headers.get("Range"), false);
+  return drive.down(url.searchParams.get("id"), request.headers.get("Range"), false);
 }
 
 class googleDrive {
