@@ -35,15 +35,15 @@ function html() {
   <html lang="en">
     <head>
       <meta charset="utf-8" />
-      <link rel="icon" href="https://raw.githack.com/libDrive/heroku/main/build/favicon.ico" />
+      <link rel="icon" href="https://rawcdn.githack.com/libDrive/heroku/16594e1823cfe366545942632f4a76f2b7cdd9f3/build/favicon.ico" />
       <meta name="viewport" content="width=device-width,initial-scale=1" />
       <meta name="theme-color" content="#4197fe" />
       <meta name="description" content="Web site created using create-react-app" />
-      <link rel="manifest" href="https://raw.githack.com/libDrive/heroku/main/build/manifest.json" />
+      <link rel="manifest" href="https://rawcdn.githack.com/libDrive/heroku/16594e1823cfe366545942632f4a76f2b7cdd9f3/build/manifest.json" />
       <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
       <title>libDrive</title>
-      <link href="https://raw.githack.com/libDrive/heroku/main/build/static/css/2.70bada21.chunk.css" rel="stylesheet" />
-      <link href="https://raw.githack.com/libDrive/heroku/main/build/static/css/main.09cf67cf.chunk.css" rel="stylesheet" />
+      <link href="https://rawcdn.githack.com/libDrive/heroku/16594e1823cfe366545942632f4a76f2b7cdd9f3/build/static/css/2.70bada21.chunk.css" rel="stylesheet" />
+      <link href="https://rawcdn.githack.com/libDrive/heroku/16594e1823cfe366545942632f4a76f2b7cdd9f3/build/static/css/main.91f6094c.chunk.css" rel="stylesheet" />
     </head>
     <body>
       <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -120,8 +120,8 @@ function html() {
           t();
         })([]);
       </script>
-      <script src="https://raw.githack.com/libDrive/heroku/main/build/static/js/2.89909b5c.chunk.js"></script>
-      <script src="https://raw.githack.com/libDrive/heroku/main/build/static/js/main.b19de2c8.chunk.js"></script>
+      <script src="https://rawcdn.githack.com/libDrive/heroku/16594e1823cfe366545942632f4a76f2b7cdd9f3/build/static/js/2.fa2c292b.chunk.js"></script>
+      <script src="https://rawcdn.githack.com/libDrive/heroku/16594e1823cfe366545942632f4a76f2b7cdd9f3/build/static/js/main.f8cd1fa5.chunk.js"></script>
     </body>
   </html>  
 `;
