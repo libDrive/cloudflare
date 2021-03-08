@@ -14,7 +14,6 @@ const config = {
       type: "",
       name: "",
       id: "",
-      driveId: "",
     },
   ],
   client_id: "",
