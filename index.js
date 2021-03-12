@@ -8,20 +8,10 @@ const config = {
       username: "",
     },
   ],
-  build_interval: 120,
-  category_list: [
-    {
-      type: "",
-      name: "",
-      id: "",
-    },
-  ],
+  auth: true,
   client_id: "",
   client_secret: "",
   refresh_token: "",
-  secret_key: "",
-  tmdb_api_key: "",
-  token_expiry: "",
   transcoded: false,
 };
 
@@ -166,6 +156,7 @@ async function handleRequest(request) {
       url.searchParams.get("id"),
       request.headers.get("Range"),
       url.searchParams.get("quality"),
+      url.searchParams.get("itag"),
       false
     );
   }
@@ -180,7 +171,7 @@ class googleDrive {
     await this.accessToken();
   }
 
-  async downloadAPI(id, range = "", quality, inline = false) {
+  async downloadAPI(id, range = "", quality, itag, inline = false) {
     function queryStringToJSON(queryString) {
       if (queryString.indexOf("?") > -1) {
         queryString = queryString.split("?")[1];
@@ -213,7 +204,9 @@ class googleDrive {
       if (parsed.status == "ok") {
         if (parsed.fmt_list.length > 0) {
           let url = "";
-          let itag = parsed.fmt_list.match(/^\d+[^\/]*/)[0];
+          if (!itag || itag == "") {
+            itag = parsed.fmt_list.match(/^\d+[^\/]*/)[0];
+          }
           let url_list = parsed.url_encoded_fmt_stream_map.split(",");
           for (let i = 0; i < url_list.length; i++) {
             let parsed_url = queryStringToJSON(url_list[i]);
