@@ -7,75 +7,41 @@ async function handleRequest(request) {
   let url = new URL(request.url);
   let path = url.pathname;
   if (!path.startsWith("/api")) {
-    return new Response("INVALID");
+    return new Response(
+      "libDrive for Cloudflare doesn't work on its own. It is only an extention to the backend."
+    );
   } else if (path.startsWith("/api/v1/download")) {
+    const session = JSON.parse(atob(url.searchParams.get("session")));
     return drive.downloadAPI(
-      url.searchParams.get("id"),
-      request.headers.get("Range"),
-      url.searchParams.get("itag"),
-      url.searchParams.get("access_token"),
-      url.searchParams.get("transcoded"),
-      false
+      request.headers.get("range") || "bytes=0-4096",
+      session.access_token,
+      session.transcoded,
+      session.cookie,
+      session.url
     );
   }
 }
 
 class googleDrive {
-  async downloadAPI(
-    id,
-    range = "",
-    itag,
-    access_token,
-    transcoded,
-  ) {
-    function queryStringToJSON(queryString) {
-      if (queryString.indexOf("?") > -1) {
-        queryString = queryString.split("?")[1];
-      }
-      var pairs = queryString.split("&");
-      var result = {};
-      pairs.forEach(function (pair) {
-        pair = pair.split("=");
-        result[pair[0]] = decodeURIComponent(pair[1] || "");
-      });
-      return result;
-    }
-
-    let requestOption = {
-      method: "GET",
-      headers: { Authorization: `Bearer ${access_token}`, Range: range },
-    };
-
-    if (itag != "" && itag && transcoded == "True") {
-      let fetchUrl = `https://docs.google.com/get_video_info?authuser=&docid=${id}&access_token=${access_token}`;
-      let res = await fetch(fetchUrl, {
+  async downloadAPI(range, access_token, transcoded, cookie, url) {
+    if (transcoded == true && cookie) {
+      let requestOption = {
         method: "GET",
-        headers: { Authorization: `Bearer ${access_token}` },
-      });
-      let cookies = res.headers.get("set-cookie");
-      let parsed = queryStringToJSON(await res.text());
-      if (parsed.status == "ok") {
-        let url = "";
-        let url_list = parsed.url_encoded_fmt_stream_map.split(",");
-        for (let i = 0; i < url_list.length; i++) {
-          let parsed_url = queryStringToJSON(url_list[i]);
-          if (parsed_url.itag == itag) {
-            url = parsed_url.url;
-            break;
-          }
-        }
-        if (url !== "") {
-          let resp = await fetch(url, {
-            method: "GET",
-            headers: { Cookie: cookies },
-          });
-          return resp;
-        }
-      }
+        headers: {
+          cookie: cookie,
+          range: range,
+        },
+      };
+      let resp = await fetch(url, requestOption);
+      return resp;
+    } else {
+      let requestOption = {
+        method: "GET",
+        headers: { authorization: `Bearer ${access_token}`, range: range },
+      };
+      let res = await fetch(url, requestOption);
+      return res;
     }
-    let url = `https://www.googleapis.com/drive/v3/files/${id}?alt=media`;
-    let res = await fetch(url, requestOption);
-    return res;
   }
 
   enQuery(data) {
