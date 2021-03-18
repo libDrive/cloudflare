@@ -1,0 +1,17 @@
+{
+  "name": "libdrive",
+  "version": "1.1.0",
+  "description": "Cloud media library",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/libDrive/cloudflare.git"
+  },
+  "author": "Elias Benbourenane <eliasbenbourenane@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/libDrive/cloudflare/issues"
+  }
+}
