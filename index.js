@@ -13,7 +13,7 @@ async function handleRequest(request) {
   } else if (path.startsWith("/api/v1/download")) {
     const session = JSON.parse(atob(url.searchParams.get("session")));
     return drive.downloadAPI(
-      request.headers.get("range"),
+      request.headers.get("Range"),
       session.access_token,
       session.transcoded,
       session.cookie,
@@ -28,25 +28,25 @@ class googleDrive {
       let requestOption = {
         method: "GET",
         headers: {
-          cookie: cookie,
-          range: range,
+          Cookie: cookie,
+          Range: range,
         },
       };
       let resp = await fetch(url, requestOption);
-      const { headers } = (res = new Response(res.body, res));
+      let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
       return resp;
     } else {
       let requestOption = {
         method: "GET",
-        headers: { authorization: `Bearer ${access_token}`, range: range },
+        headers: { Authorization: `Bearer ${access_token}`, Range: range },
       };
-      let res = await fetch(url, requestOption);
-      const { headers } = (res = new Response(res.body, res));
+      let resp = await fetch(url, requestOption);
+      let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
-      return res;
+      return resp;
     }
   }
 
