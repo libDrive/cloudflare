@@ -8,7 +8,7 @@ async function handleRequest(request) {
   let path = url.pathname;
   if (!path.startsWith("/api")) {
     return new Response(
-      "libDrive for Cloudflare doesn't work on its own. It is only an extention to the backend."
+      "libDrive for Cloudflare doesn't work on its own. It is only an extention to the server."
     );
   } else if (path.startsWith("/api/v1/download")) {
     const session = JSON.parse(atob(url.searchParams.get("session")));
