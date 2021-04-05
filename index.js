@@ -36,6 +36,7 @@ class googleDrive {
       let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
+      headers.set("Access-Control-Allow-Headers", "*")
       return resp;
     } else {
       let requestOption = {
@@ -46,6 +47,7 @@ class googleDrive {
       let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
+      headers.set("Access-Control-Allow-Headers", "*")
       return resp;
     }
   }
