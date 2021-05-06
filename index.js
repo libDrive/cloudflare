@@ -6,11 +6,11 @@ async function handleRequest(request) {
   const drive = new googleDrive();
   let url = new URL(request.url);
   let path = url.pathname;
-  if (!path.startsWith("/api")) {
+  if (!path.toLowerCase().startsWith("/api")) {
     return new Response(
-      "libDrive for Cloudflare doesn't work on its own. It is only an extention to the server."
+      "libDrive for Cloudflare doesn't work on its own. It is only an extention to the backend."
     );
-  } else if (path.startsWith("/api/v1/download")) {
+  } else if (path.toLowerCase().startsWith("/api/v1/download")) {
     const session = JSON.parse(atob(url.searchParams.get("session")));
     return drive.downloadAPI(
       request.headers.get("Range"),
@@ -36,7 +36,7 @@ class googleDrive {
       let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
-      headers.set("Access-Control-Allow-Headers", "*")
+      headers.set("Access-Control-Allow-Headers", "*");
       return resp;
     } else {
       let requestOption = {
@@ -47,7 +47,7 @@ class googleDrive {
       let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
-      headers.set("Access-Control-Allow-Headers", "*")
+      headers.set("Access-Control-Allow-Headers", "*");
       return resp;
     }
   }
