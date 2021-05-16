@@ -9,9 +9,19 @@
     "type": "git",
     "url": "git+https://github.com/libDrive/cloudflare.git"
   },
-  "author": "Elias Benbourenane <eliasbenbourenane@gmail.com>",
+  "author": "Elias Benbourenane <eliasbenbourenane@gmail.com> (https://eliasbenb.cf)",
+  "funding": [
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/eliasbenb"
+    },
+    {
+      "type": "paypal",
+      "url": "http://paypal.me/eliasbenb"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/libDrive/cloudflare/issues"
+    "url": "https://github.com/libDrive/libDrive/issues"
   }
 }
