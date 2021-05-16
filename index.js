@@ -13,7 +13,7 @@ async function handleRequest(request) {
   } else if (path.toLowerCase().startsWith("/api/v1/download")) {
     const session = JSON.parse(atob(url.searchParams.get("session")));
     return drive.downloadAPI(
-      request.headers.get("Range"),
+      request.headers.get("Range") || "",
       session.access_token,
       session.transcoded,
       session.cookie,
