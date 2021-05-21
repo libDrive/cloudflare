@@ -1,10 +1,16 @@
 {
-  "name": "libdrive",
+  "name": "libdrive-cloudflare",
   "version": "1.1.0",
-  "description": "Cloud media library",
-  "main": "index.js",
+  "description": "libDrive is a Google Drive media library manager and indexer, similar to Plex, that organizes Google Drive media to offer an intuitive and user-friendly experience.",
+  "scripts": {
+    "start": "wrangler dev",
+    "build": "wrangler build"
+  },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "@cloudflare/wrangler": "^1.16.1"
+  },
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/libDrive/cloudflare.git"
@@ -14,10 +20,6 @@
     {
       "type": "ko-fi",
       "url": "https://ko-fi.com/eliasbenb"
-    },
-    {
-      "type": "paypal",
-      "url": "http://paypal.me/eliasbenb"
     }
   ],
   "license": "MIT",
