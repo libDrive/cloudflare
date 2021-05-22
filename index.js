@@ -37,6 +37,8 @@ class googleDrive {
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
       headers.set("Access-Control-Allow-Headers", "*");
+      headers.set("Cache-Control", "no-cache, no-store, must-revalidate")
+      headers.set("pragma", "no-cache")
       return resp;
     } else {
       let requestOption = {
@@ -48,6 +50,8 @@ class googleDrive {
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
       headers.set("Access-Control-Allow-Headers", "*");
+      headers.set("Cache-Control", "no-cache, no-store, must-revalidate")
+      headers.set("pragma", "no-cache")
       return resp;
     }
   }
