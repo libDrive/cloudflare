@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@cloudflare/wrangler": "^1.16.1"
+    "@cloudflare/wrangler": "^1.19.0"
   },
   "main": "index.js",
   "repository": {

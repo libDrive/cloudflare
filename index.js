@@ -3,57 +3,99 @@ addEventListener("fetch", (event) => {
 });
 
 async function handleRequest(request) {
-  const drive = new googleDrive();
-  let url = new URL(request.url);
-  let path = url.pathname;
+  const url = new URL(request.url);
+  const path = url.pathname;
   if (!path.toLowerCase().startsWith("/api")) {
     return new Response(
       "libDrive for Cloudflare doesn't work on its own. It is only an extention to the backend."
     );
   } else if (path.toLowerCase().startsWith("/api/v1/download")) {
     const session = JSON.parse(atob(url.searchParams.get("session")));
-    return drive.downloadAPI(
-      request.headers.get("Range") || "",
-      session.access_token,
-      session.transcoded,
-      session.cookie,
-      session.url
-    );
+    const drive = new googleDrive(session);
+    return drive.downloadAPI(request.headers.get("Range") || "", session);
   }
 }
 
 class googleDrive {
-  async downloadAPI(range = "", access_token, transcoded, cookie, url) {
-    if (transcoded == true && cookie) {
+  constructor(session) {
+    let token_expiry = new Date(session.token_expiry);
+    this.config = {
+      access_token: null,
+      client_id: session.client_id,
+      client_secret: session.client_secret,
+      refresh_token: session.refresh_token,
+      token_expiry: token_expiry,
+    };
+  }
+  async downloadAPI(range, session) {
+    if (session.transcoded == true && session.cookie) {
       let requestOption = {
         method: "GET",
         headers: {
-          Cookie: cookie,
+          Cookie: session.cookie,
           Range: range,
         },
       };
-      let resp = await fetch(url, requestOption);
+      let resp = await fetch(session.url, requestOption);
       let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
       headers.set("Access-Control-Allow-Headers", "*");
-      headers.set("Cache-Control", "no-cache, no-store, must-revalidate")
-      headers.set("pragma", "no-cache")
+      headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+      headers.set("pragma", "no-cache");
       return resp;
     } else {
+      await this.setAccessToken();
       let requestOption = {
         method: "GET",
-        headers: { Authorization: `Bearer ${access_token}`, Range: range },
+        headers: {
+          Authorization: `Bearer ${this.config.access_token}`,
+          Range: range,
+        },
       };
-      let resp = await fetch(url, requestOption);
+      let resp = await fetch(session.url, requestOption);
       let { headers } = (resp = new Response(resp.body, resp));
       headers.append("Access-Control-Allow-Origin", "*");
       headers.set("Content-Disposition", "inline");
       headers.set("Access-Control-Allow-Headers", "*");
-      headers.set("Cache-Control", "no-cache, no-store, must-revalidate")
-      headers.set("pragma", "no-cache")
+      headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+      headers.set("pragma", "no-cache");
       return resp;
     }
+  }
+
+  async setAccessToken() {
+    if (
+      this.config.token_expiry == undefined ||
+      this.config.token_expiry < Date.now()
+    ) {
+      const obj = await this.fetchAccessToken();
+      if (obj.access_token != undefined) {
+        console.log(obj);
+        this.config.access_token = obj.access_token;
+        this.config.token_expiry = obj.token_expiry;
+      }
+    }
+  }
+
+  async getAccessToken() {
+    const url = "https://www.googleapis.com/oauth2/v4/token";
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
+    const post_data = {
+      client_id: this.config.client_id,
+      client_secret: this.config.client_secret,
+      refresh_token: this.config.refresh_token,
+      grant_type: "refresh_token",
+    };
+    let requestOption = {
+      method: "POST",
+      headers: headers,
+      body: this.enQuery(post_data),
+    };
+    const response = await fetch(url, requestOption);
+    return await response.json();
   }
 
   enQuery(data) {
