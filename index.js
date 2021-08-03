@@ -21,6 +21,7 @@ class googleDrive {
     let token_expiry = new Date(
       session.token_expiry || new Date().toISOString()
     );
+    token_expiry = token_expiry.getTime();
     this.config = {
       access_token: session.access_token,
       client_id: session.client_id,
