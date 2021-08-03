@@ -18,9 +18,11 @@ async function handleRequest(request) {
 
 class googleDrive {
   constructor(session) {
-    let token_expiry = new Date(session.token_expiry);
+    let token_expiry = new Date(
+      session.token_expiry || new Date().toISOString()
+    );
     this.config = {
-      access_token: null,
+      access_token: session.access_token,
       client_id: session.client_id,
       client_secret: session.client_secret,
       refresh_token: session.refresh_token,
@@ -46,6 +48,7 @@ class googleDrive {
       return resp;
     } else {
       await this.setAccessToken();
+      console.log(this.config.access_token);
       let requestOption = {
         method: "GET",
         headers: {
@@ -69,9 +72,8 @@ class googleDrive {
       this.config.token_expiry == undefined ||
       this.config.token_expiry < Date.now()
     ) {
-      const obj = await this.fetchAccessToken();
+      const obj = await this.getAccessToken();
       if (obj.access_token != undefined) {
-        console.log(obj);
         this.config.access_token = obj.access_token;
         this.config.token_expiry = obj.token_expiry;
       }
