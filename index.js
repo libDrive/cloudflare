@@ -48,7 +48,6 @@ class googleDrive {
       return resp;
     } else {
       await this.setAccessToken();
-      console.log(this.config.access_token);
       let requestOption = {
         method: "GET",
         headers: {
