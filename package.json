@@ -1,6 +1,6 @@
 {
   "name": "libdrive-cloudflare",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "libDrive is a Google Drive media library manager and indexer, similar to Plex, that organizes Google Drive media to offer an intuitive and user-friendly experience.",
   "scripts": {
     "start": "wrangler dev",
